@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -25,25 +25,25 @@ jobs:
         run: npm run build
 
       - name: Save Build
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: build
-          path: dist/portifolio-web/
+          path: dist/portifolio-web/browser/
           if-no-files-found: error
 
   deploy:
     runs-on: ubuntu-latest
-    needs: buid
+    needs: build
 
     steps:
       - name: Get Build
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: dist/portifolio-web/
 
       - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -51,4 +51,4 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./dist/portifolio-web s3://portifolio-isabella/     
+          aws s3 sync ./dist/portifolio-web/browser s3://portifolio-isabella/     
