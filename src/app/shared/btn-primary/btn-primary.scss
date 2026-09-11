@@ -1,0 +1,15 @@
+@import '../../app.scss';
+
+.btn-primary {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 20px;
+
+  color: $btn-text-color;
+  background: #161A31;
+  background: linear-gradient(90deg, rgba(22, 26, 49, 1) 35%, rgba(6, 9, 31, 1) 100%);
+
+  border: none;
+  border-radius: 8px;
+
+}
