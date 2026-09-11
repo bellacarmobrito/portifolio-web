@@ -51,4 +51,4 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./dist/portifolio-web/browser s3://portifolio-isabella/     
+          aws s3 sync ./dist/portifolio-web s3://portifolio-isabella/     
