@@ -4,10 +4,11 @@ import { MainSection } from '../../shared/main-section/main-section';
 import { GithubService } from '../../services/github';
 import { Repository } from '../../types/repository.interface';
 import { About } from '../../shared/about/about';
+import { Projects } from '../../shared/projects/projects';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, MainSection, About],
+  imports: [Header, MainSection, About, Projects],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

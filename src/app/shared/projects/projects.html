@@ -1,0 +1,53 @@
+<section id="projects" class="projects">
+  @if (error) {
+  <p>Não foi possível carregar os projetos.</p>
+  } @else {
+  <div class="projects__grid">
+    @for (repo of visibleRepositories(); track repo.name) {
+    <article class="project-card glass">
+
+      @if (extrasFor(repo).achievement) {
+      <span class="project-card__badge text-gradient-accent">
+        {{extrasFor(repo).achievement}}
+      </span>
+      }
+
+      @if (extrasFor(repo).screenshot) {
+      <img [src]="extrasFor(repo).screenshot" [alt]="repo.name" class="project-card__preview">
+      }
+
+      <h3>{{repo.name | formatRepoName}}</h3>
+      <p>{{repo.description || 'Sem descrição disponível'}}</p>
+
+      <ul class="project-card__stack">
+        @for (lang of languagesByRepo()[repo.name] ?? []; track lang) {
+        <li>
+          @if (!iconFailed.has(lang)) {
+          <img [src]="'assets/icons/' + slug(lang) + '.png'" [alt]="lang" (error)="onIconError(lang)">
+          } @else {
+          <span>{{ lang }}</span>
+          }
+        </li>
+        }
+      </ul>
+
+      <div class="project-card__footer">
+        @if (repo.homepage) {
+        <a [href]="repo.homepage" target="_blank" class="text-gradient-accent">Check Live Site ↗</a>
+        } @else if (extrasFor(repo).videoUrl) {
+        <a [href]="extrasFor(repo).videoUrl" target="_blank" class="text-gradient-accent">Ver vídeo demo ↗</a>
+        } @else {
+        <a [href]="repo.html_url" target="_blank" class="text-gradient-accent">Ver código ↗</a>
+        }
+      </div>
+    </article>
+    } @empty {
+    <p>Nenhum projeto por aqui ainda.</p>
+    }
+  </div>
+
+  @if (hasMore()) {
+  <button class="projects__more" (click)="showMore()">Ver mais projetos</button>
+  }
+  }
+</section>
