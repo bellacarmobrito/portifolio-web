@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { afterNextRender, Component, inject } from '@angular/core';
 import { BtnPrimary } from '../btn-primary/btn-primary';
+import { ThemeService } from '../../services/theme';
 
 @Component({
   selector: 'app-header',
@@ -7,4 +8,10 @@ import { BtnPrimary } from '../btn-primary/btn-primary';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header { }
+export class Header {
+  themeService = inject(ThemeService);
+
+  constructor() {
+    afterNextRender(() => this.themeService.init());
+  }
+}
