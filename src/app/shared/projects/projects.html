@@ -19,19 +19,19 @@
       <h3>{{repo.name | formatRepoName}}</h3>
       <p>{{repo.description || 'Sem descrição disponível'}}</p>
 
-      <ul class="project-card__stack">
-        @for (lang of languagesByRepo()[repo.name] ?? []; track lang) {
-        <li>
-          @if (!iconFailed.has(lang)) {
-          <img [src]="'assets/icons/' + slug(lang) + '.png'" [alt]="lang" (error)="onIconError(lang)">
-          } @else {
-          <span>{{ lang }}</span>
-          }
-        </li>
-        }
-      </ul>
-
       <div class="project-card__footer">
+        <ul class="project-card__stack">
+          @for (lang of languagesFor(repo.name); track lang) {
+          <li>
+            @if (!iconFailed().has(lang)) {
+            <img [src]="'https://skillicons.dev/icons?i=' + iconSlug(lang) + '&theme=' + themeService.theme()" [alt]="lang" (error)="onIconError(lang)">
+            } @else {
+            <span>{{ lang }}</span>
+            }
+          </li>
+          }
+        </ul>
+
         @if (repo.homepage) {
         <a [href]="repo.homepage" target="_blank" class="text-gradient-accent">Check Live Site ↗</a>
         } @else if (extrasFor(repo).videoUrl) {

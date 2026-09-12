@@ -3,7 +3,12 @@ import { GithubService } from './../../services/github';
 import { Repository } from './../../types/repository.interface';
 import { Component, Input, signal, computed } from '@angular/core';
 import { FormatRepoNamePipe } from '../pipes/format-repo-name-pipe';
+import { ThemeService } from '../../services/theme';
 
+const LANGUAGE_ICON_OVERRIDES: Record<string, string> = {
+  dockerfile: 'docker',
+  'jupyter-notebook': 'jupyter',
+};
 
 @Component({
   selector: 'app-projects',
@@ -26,9 +31,9 @@ export class Projects {
 
   private _repositories = signal<Repository[]>([]);
   languagesByRepo = signal<Record<string, string[]>>({});
-  iconFailed = new Set<string>();
+  iconFailed = signal(new Set<string>());
 
-  constructor(private githubService: GithubService) { }
+  constructor(private githubService: GithubService, protected themeService: ThemeService) { }
 
   private loadLanguages(repo: Repository): void {
     if (this.languagesByRepo()[repo.name]) return;
@@ -42,8 +47,19 @@ export class Projects {
     return lang.toLowerCase().replace(/[^a-z0-9]/g, '-');
   }
 
+  iconSlug(lang: string): string {
+    const slug = this.slug(lang);
+    return LANGUAGE_ICON_OVERRIDES[slug] ?? slug;
+  }
+
   onIconError(lang: string): void {
-    this.iconFailed.add(lang)
+    this.iconFailed.update(failed => new Set(failed).add(lang));
+  }
+
+  languagesFor(repoName: string): string[] {
+    const langs = this.languagesByRepo()[repoName] ?? [];
+    const failed = this.iconFailed();
+    return [...langs].sort((a, b) => Number(failed.has(a)) - Number(failed.has(b)));
   }
 
   extrasFor(repo: Repository): ProjectExtra {
