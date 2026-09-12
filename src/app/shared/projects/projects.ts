@@ -10,6 +10,10 @@ const LANGUAGE_ICON_OVERRIDES: Record<string, string> = {
   'jupyter-notebook': 'jupyter',
 };
 
+const KNOWN_UNSUPPORTED_ICON_SLUGS = new Set<string>([
+  'plpgsql',
+]);
+
 @Component({
   selector: 'app-projects',
   imports: [FormatRepoNamePipe],
@@ -56,10 +60,13 @@ export class Projects {
     this.iconFailed.update(failed => new Set(failed).add(lang));
   }
 
+  hasIcon(lang: string): boolean {
+    return !this.iconFailed().has(lang) && !KNOWN_UNSUPPORTED_ICON_SLUGS.has(this.iconSlug(lang));
+  }
+
   languagesFor(repoName: string): string[] {
     const langs = this.languagesByRepo()[repoName] ?? [];
-    const failed = this.iconFailed();
-    return [...langs].sort((a, b) => Number(failed.has(a)) - Number(failed.has(b)));
+    return [...langs].sort((a, b) => Number(!this.hasIcon(a)) - Number(!this.hasIcon(b)));
   }
 
   extrasFor(repo: Repository): ProjectExtra {

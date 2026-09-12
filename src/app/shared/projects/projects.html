@@ -23,7 +23,7 @@
         <ul class="project-card__stack">
           @for (lang of languagesFor(repo.name); track lang) {
           <li>
-            @if (!iconFailed().has(lang)) {
+            @if (hasIcon(lang)) {
             <img [src]="'https://skillicons.dev/icons?i=' + iconSlug(lang) + '&theme=' + themeService.theme()" [alt]="lang" (error)="onIconError(lang)">
             } @else {
             <span>{{ lang }}</span>
