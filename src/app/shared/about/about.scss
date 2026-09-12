@@ -1,0 +1,17 @@
+.about {
+  padding: var(--space-2x1) 0;
+
+  h2 {
+    font-size: 28px;
+    margin-bottom: var(--space-lg);
+  }
+
+  &__bio{
+    margin: 0;
+    padding-left: var(--space-lg);
+    border-left: 6px solid var(--color-accent);
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}

@@ -3,10 +3,11 @@ import { Header } from "../../shared/header/header";
 import { MainSection } from '../../shared/main-section/main-section';
 import { GithubService } from '../../services/github';
 import { Repository } from '../../types/repository.interface';
+import { About } from '../../shared/about/about';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, MainSection],
+  imports: [Header, MainSection, About],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
