@@ -4,6 +4,7 @@ import { Repository } from './../../types/repository.interface';
 import { Component, Input, signal, computed } from '@angular/core';
 import { FormatRepoNamePipe } from '../pipes/format-repo-name-pipe';
 import { ThemeService } from '../../services/theme';
+import { EXTERNAL_PROJECTS, toRepository } from '../../types/external-project.interface';
 
 const LANGUAGE_ICON_OVERRIDES: Record<string, string> = {
   dockerfile: 'docker',
@@ -25,8 +26,19 @@ export class Projects {
   @Input() error = false;
 
   @Input() set repositories(repos: Repository[]) {
-    this._repositories.set(repos);
-    repos.forEach(repo => this.loadLanguages(repo));
+    const externalRepos = EXTERNAL_PROJECTS.map(toRepository);
+    const merged = [...repos, ...externalRepos];
+
+    this.languagesByRepo.update(map => {
+      const next = { ...map };
+      for (const project of EXTERNAL_PROJECTS) {
+        next[project.name] = project.languages;
+      }
+      return next;
+    })
+
+    this._repositories.set(merged);
+    merged.forEach(repo => this.loadLanguages(repo));
   }
 
   get repositories(): Repository[] {
