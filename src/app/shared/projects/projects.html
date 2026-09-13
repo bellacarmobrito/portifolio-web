@@ -7,7 +7,7 @@
     <article class="project-card glass">
 
       @if (extrasFor(repo).achievement) {
-      <span class="project-card__badge text-gradient-accent">
+      <span class="project-card__badge">
         {{extrasFor(repo).achievement}}
       </span>
       }
@@ -24,7 +24,8 @@
           @for (lang of languagesFor(repo.name); track lang) {
           <li>
             @if (hasIcon(lang)) {
-            <img [src]="'https://skillicons.dev/icons?i=' + iconSlug(lang) + '&theme=' + themeService.theme()" [alt]="lang" (error)="onIconError(lang)">
+            <img [src]="'https://skillicons.dev/icons?i=' + iconSlug(lang) + '&theme=' + themeService.theme()"
+              [alt]="lang" (error)="onIconError(lang)">
             } @else {
             <span>{{ lang }}</span>
             }
