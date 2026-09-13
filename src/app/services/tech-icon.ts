@@ -1,40 +1,74 @@
 import { Injectable, signal } from '@angular/core';
 
-const LANGUAGE_ICON_OVERRIDES: Record<string, string> = {
+type IconStage = 'skillicons' | 'simpleicons' | 'none';
+
+const SKILLICONS_OVERRIDES: Record<string, string> = {
   dockerfile: 'docker',
   'jupyter-notebook': 'jupyter',
+  'bootstrap5': 'bootstrap',
 };
 
-const KNOWN_UNSUPPORTED_ICON_SLUGS = new Set<string>([
-  'plpgsql',
+// slugs que o Skill Icons "aceita" (200) mas devolve um SVG em branco — confirmado manualmente,
+// já que o navegador não deixa a gente checar isso via JS (CORS bloqueia ler o conteúdo).
+// Pula direto pro Simple Icons pra esses.
+const SKILLICONS_BLANK_SLUGS = new Set<string>([
+  'plpgsql', 'oracle', 'signalr', 'jetpack-compose', 'retrofit', 'android',
 ]);
+
+// nomes onde o slug do Simple Icons não bate com o do Skill Icons.
+const SIMPLEICONS_OVERRIDES: Record<string, string> = {
+  html: 'html5',
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class TechIconService {
 
-  private iconFailed = signal(new Set<string>());
+  private stage = signal<Record<string, IconStage>>({});
 
-  slug(tech: string): string {
-    return tech.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  private baseSlug(tech: string): string {
+    return tech.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   }
 
-  iconSlug(tech: string): string {
-    const slug = this.slug(tech);
-    return LANGUAGE_ICON_OVERRIDES[slug] ?? slug;
+  slug(tech: string): string {
+    return this.baseSlug(tech);
+  }
+
+  private skillIconsSlug(tech: string): string {
+    const s = this.baseSlug(tech).replace(/\s+/g, '-');
+    return SKILLICONS_OVERRIDES[s] ?? s;
+  }
+
+  private simpleIconsSlug(tech: string): string {
+    const s = this.baseSlug(tech).replace(/\s+/g, '');
+    return SIMPLEICONS_OVERRIDES[s] ?? s;
+  }
+
+  private stageFor(tech: string): IconStage {
+    const key = this.baseSlug(tech);
+    const explicit = this.stage()[key];
+    if (explicit) return explicit;
+    return SKILLICONS_BLANK_SLUGS.has(this.skillIconsSlug(tech)) ? 'simpleicons' : 'skillicons';
   }
 
   hasIcon(tech: string): boolean {
-    return !this.iconFailed().has(tech) && !KNOWN_UNSUPPORTED_ICON_SLUGS.has(this.iconSlug(tech));
-  }
-
-  onIconError(tech: string): void {
-    this.iconFailed.update(failed => new Set(failed).add(tech));
+    return this.stageFor(tech) !== 'none';
   }
 
   iconUrl(tech: string, theme: string): string {
-    return `https://skillicons.dev/icons?i=${this.iconSlug(tech)}&theme=${theme}`;
+    const stage = this.stageFor(tech);
+    if (stage === 'simpleicons') {
+      const color = theme === 'dark' ? 'F5F3FF' : '1B1730';
+      return `https://cdn.simpleicons.org/${this.simpleIconsSlug(tech)}/${color}`;
+    }
+    return `https://skillicons.dev/icons?i=${this.skillIconsSlug(tech)}&theme=${theme}`;
+  }
+
+  onIconError(tech: string): void {
+    const key = this.baseSlug(tech);
+    const next: IconStage = this.stageFor(tech) === 'skillicons' ? 'simpleicons' : 'none';
+    this.stage.update(stage => ({ ...stage, [key]: next }));
   }
 
   sortByIconAvailability(items: string[]): string[] {
