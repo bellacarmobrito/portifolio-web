@@ -1,10 +1,9 @@
 import { afterNextRender, Component, inject } from '@angular/core';
-import { BtnPrimary } from '../btn-primary/btn-primary';
 import { ThemeService } from '../../services/theme';
 
 @Component({
   selector: 'app-header',
-  imports: [BtnPrimary],
+  imports: [],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
