@@ -1,19 +1,11 @@
 import { ProjectExtra, PROJECT_EXTRAS } from '../../types/project_extra.interface';
 import { GithubService } from './../../services/github';
 import { Repository } from './../../types/repository.interface';
-import { Component, Input, signal, computed } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, computed, effect } from '@angular/core';
 import { FormatRepoNamePipe } from '../pipes/format-repo-name-pipe';
 import { ThemeService } from '../../services/theme';
+import { TechIconService } from '../../services/tech-icon';
 import { EXTERNAL_PROJECTS, toRepository } from '../../types/external-project.interface';
-
-const LANGUAGE_ICON_OVERRIDES: Record<string, string> = {
-  dockerfile: 'docker',
-  'jupyter-notebook': 'jupyter',
-};
-
-const KNOWN_UNSUPPORTED_ICON_SLUGS = new Set<string>([
-  'plpgsql',
-]);
 
 @Component({
   selector: 'app-projects',
@@ -24,6 +16,7 @@ const KNOWN_UNSUPPORTED_ICON_SLUGS = new Set<string>([
 export class Projects {
 
   @Input() error = false;
+  @Output() visibleTechnologiesChange = new EventEmitter<string[]>();
 
   @Input() set repositories(repos: Repository[]) {
     const externalRepos = EXTERNAL_PROJECTS.map(toRepository);
@@ -47,9 +40,27 @@ export class Projects {
 
   private _repositories = signal<Repository[]>([]);
   languagesByRepo = signal<Record<string, string[]>>({});
-  iconFailed = signal(new Set<string>());
 
-  constructor(private githubService: GithubService, protected themeService: ThemeService) { }
+  constructor(
+    private githubService: GithubService,
+    protected themeService: ThemeService,
+    protected techIcon: TechIconService,
+  ) {
+    effect(() => {
+      const seen = new Set<string>();
+      const combined: string[] = [];
+      for (const repo of this.visibleRepositories()) {
+        for (const tech of this.techFor(repo)) {
+          const key = this.techIcon.slug(tech);
+          if (!seen.has(key)) {
+            seen.add(key);
+            combined.push(tech);
+          }
+        }
+      }
+      this.visibleTechnologiesChange.emit(combined);
+    });
+  }
 
   private loadLanguages(repo: Repository): void {
     if (this.languagesByRepo()[repo.name]) return;
@@ -59,37 +70,33 @@ export class Projects {
     })
   }
 
-  slug(lang: string): string {
-    return lang.toLowerCase().replace(/[^a-z0-9]/g, '-');
-  }
-
-  iconSlug(lang: string): string {
-    const slug = this.slug(lang);
-    return LANGUAGE_ICON_OVERRIDES[slug] ?? slug;
-  }
-
-  onIconError(lang: string): void {
-    this.iconFailed.update(failed => new Set(failed).add(lang));
-  }
-
-  hasIcon(lang: string): boolean {
-    return !this.iconFailed().has(lang) && !KNOWN_UNSUPPORTED_ICON_SLUGS.has(this.iconSlug(lang));
-  }
-
-  languagesFor(repoName: string): string[] {
-    const langs = this.languagesByRepo()[repoName] ?? [];
-    return [...langs].sort((a, b) => Number(!this.hasIcon(a)) - Number(!this.hasIcon(b)));
-  }
-
   extrasFor(repo: Repository): ProjectExtra {
     return PROJECT_EXTRAS[repo.name] ?? {};
+  }
+
+  techFor(repo: Repository): string[] {
+    const languages = this.languagesByRepo()[repo.name] ?? [];
+    const topics = repo.topics ?? [];
+
+    const seen = new Set<string>();
+    const combined: string[] = [];
+    for (const tech of [...languages, ...topics]) {
+      if (!tech) continue;
+      const key = this.techIcon.slug(tech);
+      if (!seen.has(key)) {
+        seen.add(key);
+        combined.push(tech);
+      }
+    }
+
+    return this.techIcon.sortByIconAvailability(combined);
   }
 
   projectsWithLanguages = computed(() =>
     this._repositories().filter(repo => (this.languagesByRepo()[repo.name]?.length ?? 0) > 0)
   );
 
-  visibleCount = signal(3);
+  visibleCount = signal(6);
 
   visibleRepositories = computed(() =>
     this.projectsWithLanguages().slice(0, this.visibleCount())

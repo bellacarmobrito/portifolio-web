@@ -4,4 +4,5 @@ export interface Repository {
   html_url: string;
   languages_url: string;
   homepage: string | null;
+  topics: string[];
 }

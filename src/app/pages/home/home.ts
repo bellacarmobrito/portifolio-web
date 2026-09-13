@@ -7,10 +7,11 @@ import { About } from '../../shared/about/about';
 import { Projects } from '../../shared/projects/projects';
 import { Contact } from '../../shared/contact/contact';
 import { Footer } from '../../shared/footer/footer';
+import { Technologies } from '../../shared/technologies/technologies';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, MainSection, About, Projects, Contact, Footer],
+  imports: [Header, MainSection, About, Projects, Technologies, Contact, Footer],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -18,6 +19,7 @@ export class Home implements OnInit {
 
   repositories: Repository[] = [];
   reposError = false;
+  visibleTechnologies: string[] = [];
 
   constructor(private githubService: GithubService) { }
 

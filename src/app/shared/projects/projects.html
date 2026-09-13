@@ -1,4 +1,5 @@
 <section id="projects" class="projects">
+  <h2>Meus Projetos</h2>
   @if (error) {
   <p>Não foi possível carregar os projetos.</p>
   } @else {
@@ -20,14 +21,13 @@
       <p>{{repo.description || 'Sem descrição disponível'}}</p>
 
       <div class="project-card__footer">
-        <ul class="project-card__stack">
-          @for (lang of languagesFor(repo.name); track lang) {
+        <ul class="tech-chip-list">
+          @for (tech of techFor(repo); track tech) {
           <li>
-            @if (hasIcon(lang)) {
-            <img [src]="'https://skillicons.dev/icons?i=' + iconSlug(lang) + '&theme=' + themeService.theme()"
-              [alt]="lang" (error)="onIconError(lang)">
+            @if (techIcon.hasIcon(tech)) {
+            <img [src]="techIcon.iconUrl(tech, themeService.theme())" [alt]="tech" (error)="techIcon.onIconError(tech)">
             } @else {
-            <span>{{ lang }}</span>
+            <span>{{ tech }}</span>
             }
           </li>
           }

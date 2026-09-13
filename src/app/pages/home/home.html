@@ -2,7 +2,9 @@
   <app-header></app-header>
   <app-main-section></app-main-section>
   <app-about></app-about>
-  <app-projects [repositories]="repositories" [error]="reposError"></app-projects>
+  <app-technologies [technologies]="visibleTechnologies"></app-technologies>
+  <app-projects [repositories]="repositories" [error]="reposError"
+    (visibleTechnologiesChange)="visibleTechnologies = $event"></app-projects>
   <app-contact></app-contact>
 </div>
 <app-footer></app-footer>
