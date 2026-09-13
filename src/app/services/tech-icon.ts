@@ -8,18 +8,13 @@ const SKILLICONS_OVERRIDES: Record<string, string> = {
   'bootstrap5': 'bootstrap',
 };
 
-// slugs que o Skill Icons "aceita" (200) mas devolve um SVG em branco — confirmado manualmente,
-// já que o navegador não deixa a gente checar isso via JS (CORS bloqueia ler o conteúdo).
-// Pula direto pro Simple Icons pra esses.
 const SKILLICONS_BLANK_SLUGS = new Set<string>([
   'plpgsql', 'oracle', 'signalr', 'jetpack-compose', 'retrofit', 'android',
 ]);
 
-// nomes onde o slug do Simple Icons não bate com o do Skill Icons.
 const SIMPLEICONS_OVERRIDES: Record<string, string> = {
   html: 'html5',
 };
-
 @Injectable({
   providedIn: 'root',
 })
