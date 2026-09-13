@@ -5,6 +5,7 @@
   --color-accent: #A78BFA;
   --color-accent-2: #7C6AF0;
   --gradient-accent: linear-gradient(120deg, var(--color-accent-2) 0%, var(--color-accent) 100%);
+  --gradient-bg: linear-gradient(-20deg, #0f0a24 0%, #1a1330 100%);
   --color-text-primary: #F5F3FF;
   --color-text-secondary: #B8B3C7;
   --color-border: rgba(255, 255, 255, 0.08);
@@ -18,6 +19,7 @@
   --color-accent: #7C6AF0;
   --color-accent-2: #6247E0;
   --gradient-accent: linear-gradient(120deg, var(--color-accent-2) 0%, var(--color-accent) 100%);
+  --gradient-bg: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
   --color-text-primary: #1B1730;
   --color-text-secondary: #55516B;
   --color-border: rgba(20, 18, 31, 0.08);
@@ -47,6 +49,8 @@ body {
   margin: 0;
   padding: 0;
   background: var(--color-bg);
+  background-image: var(--gradient-bg);
+  background-attachment: fixed;
   color: var(--color-text-primary);
   font-family: var(--font-family-base);
   transition: background-color .2s ease, color .2s ease;
