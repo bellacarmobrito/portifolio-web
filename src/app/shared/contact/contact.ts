@@ -7,4 +7,4 @@ import { BtnPrimary } from '../btn-primary/btn-primary';
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
 })
-export class Contact {}
+export class Contact { }

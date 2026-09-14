@@ -1,15 +1,30 @@
-@import '../../app.scss';
-
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
   font-weight: 500;
-  padding: 12px 20px;
+  padding: 12px 24px;
 
-  color: $btn-text-color;
-  background: #161A31;
-  background: linear-gradient(90deg, rgba(22, 26, 49, 1) 35%, rgba(6, 9, 31, 1) 100%);
+  // fundo é sempre escuro (overlay + imagem), nos dois temas — texto fica fixo em branco,
+  // não em var(--color-text-primary), que ficaria escuro no tema claro e sumiria no fundo.
+  color: #fff;
+  background-image: linear-gradient(rgba(4, 4, 28, .55), rgba(4, 4, 28, .55)), url('../../../assets/backgroundblobservicepng.png');
+  background-size: cover;
+  background-position: center;
 
-  border: none;
-  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
 
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124, 106, 240, .35);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 }
