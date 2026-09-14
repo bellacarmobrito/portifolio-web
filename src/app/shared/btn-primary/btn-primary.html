@@ -1,1 +1,7 @@
+@if (href) {
+<a class="btn-primary" [href]="href" [download]="download ?? true">
+  {{text}}
+</a>
+} @else {
 <button class='btn-primary'> {{text}} </button>
+}

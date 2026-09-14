@@ -8,4 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class BtnPrimary {
   @Input() text: string = '';
+  @Input() href?: string;
+  @Input() download?: string
 }
