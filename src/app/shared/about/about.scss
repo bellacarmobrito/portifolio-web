@@ -1,17 +1,52 @@
-.about {
-  padding: var(--space-2x1) 0;
+.about-section {
+  padding: var(--space-2xl) 0;
 
   h2 {
     font-size: 28px;
     margin-bottom: var(--space-lg);
   }
 
-  &__bio{
+  .about__bio {
     margin: 0;
     padding-left: var(--space-lg);
     border-left: 6px solid var(--color-accent);
     color: var(--color-text-secondary);
     font-size: 16px;
     line-height: 1.6;
+  }
+
+  .about__highlights {
+    list-style: none;
+    margin: var(--space-lg) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+
+    li {
+      position: relative;
+      padding-left: var(--space-lg);
+      color: var(--color-text-secondary);
+      font-size: 15px;
+      line-height: 1.5;
+      transition: transform .15s ease, color .15s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 7px;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--gradient-accent);
+        transform: rotate(45deg);
+      }
+
+      &:hover {
+        transform: translateX(4px);
+        color: var(--color-text-primary);
+      }
+    }
   }
 }
