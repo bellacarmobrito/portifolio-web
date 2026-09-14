@@ -17,11 +17,11 @@ section {
     text-transform: uppercase;
     font-weight: 600;
     font-size: 16px;
-    color: #151717;
+    color: var(--color-text-secondary);
   }
 
       h1 {
-    background: linear-gradient(120deg, #84FAB0 0%, #8FD3F4 100%);
+    background: var(--gradient-accent);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -34,6 +34,11 @@ section {
  
 .hero-image {
   width: 350px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  filter: drop-shadow(0 0 40px rgba(124, 106, 240, .35));
 }
 
 @media(min-width: 1080px) {
