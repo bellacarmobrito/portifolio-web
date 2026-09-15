@@ -6,6 +6,8 @@ const SKILLICONS_OVERRIDES: Record<string, string> = {
   dockerfile: 'docker',
   'jupyter-notebook': 'jupyter',
   'bootstrap5': 'bootstrap',
+  'c#': 'cs',
+  'c++': 'cpp',
 };
 
 const SKILLICONS_BLANK_SLUGS = new Set<string>([
@@ -14,6 +16,8 @@ const SKILLICONS_BLANK_SLUGS = new Set<string>([
 
 const SIMPLEICONS_OVERRIDES: Record<string, string> = {
   html: 'html5',
+  'c#': 'csharp',
+  'c++': 'cplusplus',
 };
 @Injectable({
   providedIn: 'root',
@@ -23,7 +27,7 @@ export class TechIconService {
   private stage = signal<Record<string, IconStage>>({});
 
   private baseSlug(tech: string): string {
-    return tech.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    return tech.toLowerCase().replace(/[^a-z0-9#+]+/g, ' ').trim();
   }
 
   slug(tech: string): string {

@@ -16,7 +16,7 @@
   }
 
   p {
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     font-size: 18px;
   }
 
@@ -26,18 +26,14 @@
   }
 
   @media (min-width: 700px) {
-    .not-found {
-      .illustration {
-        max-width: 420px;
-      }
+    .illustration {
+      max-width: 420px;
     }
   }
 
   @media (min-width: 1080px) {
-    .not-found {
-      .illustration {
-        max-width: 560px;
-      }
+    .illustration {
+      max-width: 560px;
     }
   }
 }

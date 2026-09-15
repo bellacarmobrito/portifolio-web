@@ -6,8 +6,6 @@
   font-weight: 500;
   padding: 12px 24px;
 
-  // fundo é sempre escuro (overlay + imagem), nos dois temas — texto fica fixo em branco,
-  // não em var(--color-text-primary), que ficaria escuro no tema claro e sumiria no fundo.
   color: #fff;
   background-image: linear-gradient(rgba(4, 4, 28, .55), rgba(4, 4, 28, .55)), url('../../../assets/backgroundblobservicepng.png');
   background-size: cover;
@@ -20,7 +18,7 @@
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(124, 106, 240, .35);
+    box-shadow: 0 8px 24px var(--shadow-glow);
   }
 
   &:focus-visible {

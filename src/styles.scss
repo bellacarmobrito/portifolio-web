@@ -11,6 +11,7 @@
   --color-border: rgba(255, 255, 255, 0.08);
   --glass-bg: rgba(20, 18, 31, 0.55);
   --glass-border: rgba(255, 255, 255, 0.12);
+  --shadow-glow: rgba(124, 106, 240, 0.35);
 }
 
 [data-theme="light"] {
@@ -25,6 +26,7 @@
   --color-border: rgba(20, 18, 31, 0.08);
   --glass-bg: rgba(255, 255, 255, 0.55);
   --glass-border: rgba(20, 18, 31, 0.10);
+  --shadow-glow: rgba(98, 71, 224, 0.35);
 }
 
 :root {

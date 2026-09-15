@@ -14,7 +14,11 @@ export class ThemeService {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const saved = localStorage.getItem('theme') as Theme | null;
-    const preferred = saved ?? (window.matchMedia(('prefers-color-scheme: light')).matches ? 'light' : 'dark');
+
+    const prefersLight = typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-color-scheme: light)').matches;
+
+    const preferred = saved ?? (prefersLight ? 'light' : 'dark');
     this.apply(preferred);
   }
 

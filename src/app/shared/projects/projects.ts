@@ -31,6 +31,7 @@ export class Projects {
     })
 
     this._repositories.set(merged);
+    this.loadedRepos.update(set => new Set([...set, ...EXTERNAL_PROJECTS.map(p => p.name)]));
     merged.forEach(repo => this.loadLanguages(repo));
   }
 
@@ -40,6 +41,7 @@ export class Projects {
 
   private _repositories = signal<Repository[]>([]);
   languagesByRepo = signal<Record<string, string[]>>({});
+  private loadedRepos = signal<Set<string>>(new Set());
 
   constructor(
     private githubService: GithubService,
@@ -63,10 +65,13 @@ export class Projects {
   }
 
   private loadLanguages(repo: Repository): void {
-    if (this.languagesByRepo()[repo.name]) return;
+    if (this.loadedRepos().has(repo.name)) return;
     this.githubService.getLanguages(repo.languages_url).subscribe({
-      next: (langs) => this.languagesByRepo.update(map => ({ ...map, [repo.name]: langs })),
-      error: () => this.languagesByRepo.update(map => ({ ...map, [repo.name]: [] })),
+      next: (langs) => {
+        this.languagesByRepo.update(map => ({ ...map, [repo.name]: langs }));
+        this.loadedRepos.update(set => new Set(set).add(repo.name));
+      },
+      error: () => this.loadedRepos.update(set => new Set(set).add(repo.name)),
     })
   }
 
@@ -74,26 +79,36 @@ export class Projects {
     return PROJECT_EXTRAS[repo.name] ?? {};
   }
 
-  techFor(repo: Repository): string[] {
-    const languages = this.languagesByRepo()[repo.name] ?? [];
-    const topics = repo.topics ?? [];
+  private techsByRepo = computed(() => {
+    const map: Record<string, string[]> = {};
+    for (const repo of this._repositories()) {
+      const languages = this.languagesByRepo()[repo.name] ?? [];
+      const topics = repo.topics ?? [];
 
-    const seen = new Set<string>();
-    const combined: string[] = [];
-    for (const tech of [...languages, ...topics]) {
-      if (!tech) continue;
-      const key = this.techIcon.slug(tech);
-      if (!seen.has(key)) {
-        seen.add(key);
-        combined.push(tech);
+      const seen = new Set<string>();
+      const combined: string[] = [];
+      for (const tech of [...languages, ...topics]) {
+        if (!tech) continue;
+        const key = this.techIcon.slug(tech);
+        if (!seen.has(key)) {
+          seen.add(key);
+          combined.push(tech);
+        }
       }
-    }
 
-    return this.techIcon.sortByIconAvailability(combined);
+      map[repo.name] = this.techIcon.sortByIconAvailability(combined);
+    }
+    return map;
+  });
+
+  techFor(repo: Repository): string[] {
+    return this.techsByRepo()[repo.name] ?? [];
   }
 
   projectsWithLanguages = computed(() =>
-    this._repositories().filter(repo => (this.languagesByRepo()[repo.name]?.length ?? 0) > 0)
+    this._repositories().filter(repo =>
+      this.loadedRepos().has(repo.name) && this.techsByRepo()[repo.name]?.length > 0
+    )
   );
 
   visibleCount = signal(6);

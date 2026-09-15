@@ -80,3 +80,21 @@ header {
     }
   }
 }
+
+@media (max-width: 699px) {
+  header {
+    gap: var(--space-sm);
+    justify-content: center;
+
+    .nav-pill {
+      padding: 10px 16px;
+      gap: var(--space-md);
+
+      a {
+        font-size: 14px;
+      }
+    }
+
+
+  }
+}

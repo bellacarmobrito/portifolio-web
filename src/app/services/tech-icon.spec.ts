@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TechIcon } from './tech-icon';
+import { TechIconService } from './tech-icon';
 
-describe('TechIcon', () => {
-  let service: TechIcon;
+describe('TechIconService', () => {
+  let service: TechIconService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TechIcon);
+    service = TestBed.inject(TechIconService);
   });
 
   it('should be created', () => {
