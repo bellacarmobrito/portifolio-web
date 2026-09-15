@@ -35,11 +35,29 @@
         </ul>
 
         @if (repo.homepage) {
-        <a [href]="repo.homepage" target="_blank" class="text-gradient-accent">Check Live Site ↗</a>
+        <a [href]="repo.homepage" target="_blank" class="text-gradient-accent">
+          Check Live Site
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M7 17 17 7M9 7h8v8" />
+          </svg>
+        </a>
         } @else if (extrasFor(repo).videoUrl) {
-        <a [href]="extrasFor(repo).videoUrl" target="_blank" class="text-gradient-accent">Ver vídeo demo ↗</a>
+        <a [href]="extrasFor(repo).videoUrl" target="_blank" class="text-gradient-accent">
+          Ver vídeo demo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M7 17 17 7M9 7h8v8" />
+          </svg>
+        </a>
         } @else {
-        <a [href]="repo.html_url" target="_blank" class="text-gradient-accent">Ver código ↗</a>
+        <a [href]="repo.html_url" target="_blank" class="text-gradient-accent">
+          Ver código
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M7 17 17 7M9 7h8v8" />
+          </svg>
+        </a>
         }
       </div>
     </article>

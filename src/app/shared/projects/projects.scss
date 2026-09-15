@@ -104,9 +104,19 @@
     gap: var(--space-sm);
 
     a {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       flex-shrink: 0;
       font-weight: 600;
       font-size: 14px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        stroke: var(--color-accent);
+      }
     }
   }
 }
