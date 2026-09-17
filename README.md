@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Isabella Brito — Portfólio
 
 [![CI/CD](https://github.com/bellacarmobrito/portifolio-web/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/bellacarmobrito/portifolio-web/actions/workflows/ci-cd.yaml)
