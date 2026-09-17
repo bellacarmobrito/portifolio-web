@@ -51,4 +51,9 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./dist/portifolio-web s3://portifolio-isabella/     
+          aws s3 sync ./dist/portifolio-web s3://portifolio-isabella/ \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "index.html"
+          aws s3 cp ./dist/portifolio-web/index.html s3://portifolio-isabella/index.html \
+            --cache-control "no-cache, no-store, must-revalidate"
