@@ -1,0 +1,38 @@
+.technologies-section {
+  padding: var(--space-xl) 0;
+  text-align: center;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: var(--space-lg);
+  }
+}
+
+.tech-marquee {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+
+  &__track {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    padding-right: var(--space-xl);
+    animation: tech-marquee-scroll 25s linear infinite;
+  }
+
+  &:hover &__track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes tech-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}

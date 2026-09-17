@@ -1,0 +1,42 @@
+<section class="technologies-section">
+  <h2>Tecnologias que já usei</h2>
+  <br>
+  <div class="tech-marquee">
+    <ul class="tech-chip-list tech-marquee__track">
+      @for (tech of technologies; track tech) {
+      <li>
+        @if (techIcon.hasIcon(tech)) {
+        <img [src]="techIcon.iconUrl(tech, themeService.theme())" [alt]="tech" (error)="techIcon.onIconError(tech)">
+        } @else {
+        <span>{{ tech }}</span>
+        }
+      </li>
+      }
+    </ul>
+
+    <ul class="tech-chip-list tech-marquee__track">
+      @for (tech of technologies; track tech) {
+      <li>
+        @if (techIcon.hasIcon(tech)) {
+        <img [src]="techIcon.iconUrl(tech, themeService.theme())" [alt]="tech" (error)="techIcon.onIconError(tech)">
+        } @else {
+        <span>{{ tech }}</span>
+        }
+      </li>
+      }
+    </ul>
+
+    <ul class="tech-chip-list tech-marquee__track">
+      @for (tech of technologies; track tech) {
+      <li>
+        @if (techIcon.hasIcon(tech)) {
+        <img [src]="techIcon.iconUrl(tech, themeService.theme())" [alt]="tech" (error)="techIcon.onIconError(tech)">
+        } @else {
+        <span>{{ tech }}</span>
+        }
+      </li>
+      }
+    </ul>
+
+  </div>
+</section>
