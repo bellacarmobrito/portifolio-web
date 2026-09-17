@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Isabella Brito — Portfólio
 
 [![CI/CD](https://github.com/bellacarmobrito/portifolio-web/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/bellacarmobrito/portifolio-web/actions/workflows/ci-cd.yaml)
@@ -66,3 +67,7 @@ O deploy é automático: todo push na branch `master` dispara o workflow em [`.g
 - [LinkedIn](https://www.linkedin.com/in/isabellabrito1)
 - [GitHub](https://github.com/bellacarmobrito)
 - E-mail: isadocarmo7@gmail.com
+=======
+# portifolio-web
+Criando meu primeiro portifolio web
+>>>>>>> origin/main
