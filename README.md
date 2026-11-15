@@ -1,14 +1,12 @@
 # Isabella Brito — Portfólio
 
-[![CI/CD](https://github.com/bellacarmobrito/portifolio-web/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/bellacarmobrito/portifolio-web/actions/workflows/ci-cd.yaml)
-
-🔗 **Site no ar:** http://portifolio-isabella.s3-website.us-east-2.amazonaws.com/
+🔗 **Site no ar:** https://isabellabrito.vercel.app/
 
 Portfólio pessoal construído com Angular 21, contando minha transição de mais de 10 anos liderando produção de eventos corporativos nacionais e internacionais para o desenvolvimento Full Stack.
 
 ## Sobre o projeto
 
-Além de reunir meus projetos e contato, este site é meu primeiro projeto Angular "de verdade" fora de sala de aula — usei ele pra praticar decisões de arquitetura que não aparecem em exercício de curso: Signals no lugar de RxJS pra estado local, SSR com hydration, consumo de API externa (GitHub), tema dark/light persistido, e um pipeline de CI/CD publicando direto num bucket S3 a cada push.
+Além de reunir meus projetos e contato, este site é meu primeiro projeto Angular "de verdade" fora de sala de aula — usei ele pra praticar decisões de arquitetura que não aparecem em exercício de curso: Signals no lugar de RxJS pra estado local, SSR com hydration, consumo de API externa (GitHub), tema dark/light persistido, e deploy contínuo: cada push na `main` publica o site na Vercel.
 
 ### Principais funcionalidades
 
@@ -25,7 +23,7 @@ Além de reunir meus projetos e contato, este site é meu primeiro projeto Angul
 - TypeScript
 - SCSS com design tokens (CSS custom properties) para os temas
 - [Vitest](https://vitest.dev/) para testes unitários
-- GitHub Actions para CI/CD, deploy em AWS S3
+- [Vercel](https://vercel.com/) para hospedagem e deploy contínuo
 
 ## Rodando localmente
 
@@ -52,12 +50,14 @@ Os artefatos são gerados em `dist/portifolio-web/`.
 
 ## Deploy
 
-O deploy é automático: todo push na branch `master` dispara o workflow em [`.github/workflows/ci-cd.yaml`](.github/workflows/ci-cd.yaml), que builda o projeto e sincroniza os arquivos com um bucket S3 configurado como site estático.
+O deploy é automático pela Vercel: todo push na branch `main` publica uma nova versão em produção, e cada Pull Request ganha uma URL de preview para revisão antes do merge.
+
+A página é pré-renderizada no build (`RenderMode.Prerender`), então os dados do GitHub exibidos nos cards refletem o momento do último deploy.
 
 ## Backlog (próximos passos)
 
-- Migrar o hosting para um domínio próprio com HTTPS
-- Buscar dados do GitHub em build-time (evitar o rate limit da API não-autenticada)
+- Domínio próprio
+- Manter os dados do GitHub atualizados sem depender de um novo deploy (redeploy agendado ou SSR por requisição) e evitar o rate limit da API não-autenticada
 - Loading state enquanto os projetos carregam
 - Toggle de idioma PT/EN
 
